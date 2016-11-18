@@ -9,7 +9,7 @@ This allows you to coordinate events between your server and your app.
 You can use websockets, but that tends to be overkill and adds extra complexity client-and-server-side. Ideally, the app will periodically calibrate with the server. This library uses an exponential moving average to increase accuracy and reduce the effects of variations in latency.
 
 
-The library is written in Swift 2. I will convert it to Swift 3 in a few months.
+The library is written in Swift 2. It will be converted to Swift 3 when my project makes the transition in a few months.
 
 
 Installation
@@ -142,7 +142,7 @@ Sample Swift Code (Using AFNetworking):
 
 let sm: AFHTTPSessionManager = AFHTTPSessionManager(baseURL: apiBaseUrl)
 
-let clientRequestTime: Int64 = NSDate.UTCToUnixNano()
+let clientRequestTime: Int64 = NSDate.UTCToUnixNano() //Store time of sending request in Unix nanosecond format
 sm.GET(path, parameters: nil, progress: nil, success: {(task: NSURLSessionDataTask, responseObject: AnyObject?) -> Void in
 	
 	//response will have 2 json fields
@@ -150,7 +150,7 @@ sm.GET(path, parameters: nil, progress: nil, success: {(task: NSURLSessionDataTa
 	// `syncUTC` - See Go code above
 	let response = f(responseObject)
 
-	//UTC server-client synchronisation
+	//UTC server-client synchronization
     NSDate.updateOffsetRaw(clientRequestTime, serverOperationDurationNano: response.syncDuration, serverUTCUnixNano: response.syncUTC)
 })
 
