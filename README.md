@@ -6,10 +6,8 @@ This library will help you calibrate your app's (NB: **Not** the device) time to
 This allows you to coordinate events between your server and your app.
 
 
-You can use websockets, but that tends to be overkill and adds extra complexity client and server side. Ideally, the app will periodically calibrate with the server. This library uses an exponential running average to increase accuracy and reduce the effects of variations in latency.
+You can use websockets, but that tends to be overkill and adds extra complexity client-and-server-side. Ideally, the app will periodically calibrate with the server. This library uses an exponential moving average to increase accuracy and reduce the effects of variations in latency.
 
-
-I will publish better documentation within a few months.
 
 The library is written in Swift 2. I will convert it to Swift 3 in a few months.
 
@@ -25,7 +23,7 @@ Not set up yet
 
 Copy `ServerSync.swift` into your project.
 
-(Optional) If you want to calibrate with Google's server, then Copy `GoogleCalibrate.swift` into your project.
+(Optional) If you want to calibrate using Google's server, then Copy `GoogleCalibrate.swift` into your project.
 
 Usage
 -----
@@ -38,6 +36,8 @@ In order to calibrate `NSDate`, you must first calibrate with a server. You can 
 If you do not calibrate, then this library will return the client's time unchanged - no detriment to you.
 
 Ideally, you should run the calibration periodically or upon observing `UIApplicationWillEnterForegroundNotification` because you can't rely on one HTTP request having low latency. High latency will reduce the accuracy of the calibration. This library will utilize an exponential moving average to get as accurate as possible.
+
+It is also wise to recalibrate after observing these notifications: `UIApplicationSignificantTimeChangeNotification`, `NSSystemClockDidChangeNotification` and `NSSystemTimeZoneDidChangeNotification`.
 
 After calibrating, the functions of note are:
 
@@ -86,6 +86,7 @@ Whether the `Date` header field is generated as late as possible is dependent on
 Ideally, the server will also return how long it took to perform the operation (i.e. process the request). The units must be in nanoseconds.
 If this is not possible, you can approximate it as 0 nanoseconds, at the cost of some accuracy.
 
+**static func updateOffsetRaw(clientRequestUTCUnixNano: Int64, serverOperationDurationNano: Int64, serverUTCUnixNano: Int64) -> Int64**
 
 **Parameters:**
 
@@ -94,8 +95,6 @@ If this is not possible, you can approximate it as 0 nanoseconds, at the cost of
 `serverOperationDurationNano` - The server should respond with how long it took to process the response from start of receiving request to start of sending out response. If you don't have access to the server, you can approximate this value to 0
 
 `serverUTCUnixNano` - The server should respond with it's internal UTC time in UTC Unix time in nanoseconds - preferably as late as possible before sending response.
-
-**static func updateOffsetRaw(clientRequestUTCUnixNano: Int64, serverOperationDurationNano: Int64, serverUTCUnixNano: Int64) -> Int64**
 
 
 **Server setup**
@@ -123,7 +122,7 @@ func RequestHandler (w http.ResponseWriter, r *http.Request) {
 
 	response := Response{}
 
-	//As late as possible: For UTC server-client synchronisation
+	//As late as possible: For UTC server-client synchronization
 	operationEndTime := time.Now().UTC()
 	response.SyncDuration = operationEndTime.Sub(operationStartTime).Nanoseconds()
 	response.SyncUTC = operationEndTime.UnixNano()
@@ -158,7 +157,6 @@ sm.GET(path, parameters: nil, progress: nil, success: {(task: NSURLSessionDataTa
 
 ```
 
-
 ### Using Google's server
 
 You can asynchronously calibrate using Google's servers. The library will attempt to use the lowest-latency server available.
@@ -183,7 +181,7 @@ Check out [`"github.com/pjebs/GAE-Toolkit-Go"`](https://github.com/pjebs/GAE-Too
 Final Notes
 ------------
 
-If you found this package useful, please **Star** it on github. Feel free to fork or provide pull requests. Any bug reports will be warmly received.
+If you found this package useful, please **Star** it on github. Feel free to fork and/or provide pull requests. Any bug reports will be warmly received.
 
 
 [SkyLovely Pty Ltd](http://www.skylove.ly)
