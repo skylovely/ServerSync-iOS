@@ -19,7 +19,7 @@ Installation
 
 ### CocoaPods (iOS 8+)
 
-<Not set up yet>
+Not set up yet
 
 ### Manual (iOS 7+)
 
@@ -39,9 +39,9 @@ If you do not calibrate, then this library will return the client's time unchang
 
 Ideally, you should run the calibration periodically or upon observing `UIApplicationWillEnterForegroundNotification` because you can't rely on one HTTP request having low latency. High latency will reduce the accuracy of the calibration. This library will utilize an exponential moving average to get as accurate as possible.
 
-After calibrating the functions of note are:
+After calibrating, the functions of note are:
 
-`toClientTime() -> NSDate` - If you have a time that is calibrated to the server's time (i.e. server's UTC time) and you want to translate it to the client's time:
+**func toClientTime() -> NSDate** - If you have a time that is calibrated to the server's time (i.e. server's UTC time) and you want to translate it to the client's time:
 
 
 ```
@@ -59,7 +59,7 @@ let clientDate: NSDate = serverDate.toClientTime()
 ```
 
 
-`static func reset()` - Uncalibrates `NSDate` so it is no longer synchronised to the server.
+**static func reset()** - Uncalibrates `NSDate` so it is no longer synchronized to the server.
 
 ```swift
 
@@ -75,9 +75,9 @@ NSDate.reset()
 
 Let's assume that from the moment the client sends it's request, the response time is made up of 3 components:
 
-*L<sub>req</sub> - The transmission time before your server can start processing the request.
-*Operation Duration - How long the server took to process the request
-*L<sub>res</sub> - The transmission time afterwards
+* L<sub>req</sub> - The transmission time before your server can start processing the request.
+* Operation Duration - How long the server took to process the request
+* L<sub>res</sub> - The transmission time afterwards
 
 Your server must respond with it's UTC time in UNIX format (nanoseconds) - ideally generated as late as possible.
 It can be embedded in the JSON response for example. If not possible, you can use the `Date` header field which provides second-level accuracy.
@@ -87,12 +87,15 @@ Ideally, the server will also return how long it took to perform the operation (
 If this is not possible, you can approximate it as 0 nanoseconds, at the cost of some accuracy.
 
 
-Parameters:
+**Parameters:**
+
 `clientRequestUTCUnixNano` - Before the client sends the request, you record the client-side UTC Unix time in nanoseconds
+
 `serverOperationDurationNano` - The server should respond with how long it took to process the response from start of receiving request to start of sending out response. If you don't have access to the server, you can approximate this value to 0
+
 `serverUTCUnixNano` - The server should respond with it's internal UTC time in UTC Unix time in nanoseconds - preferably as late as possible before sending response.
 
-`static func updateOffsetRaw(clientRequestUTCUnixNano: Int64, serverOperationDurationNano: Int64, serverUTCUnixNano: Int64) -> Int64 {`
+**static func updateOffsetRaw(clientRequestUTCUnixNano: Int64, serverOperationDurationNano: Int64, serverUTCUnixNano: Int64) -> Int64**
 
 
 **Server setup**
