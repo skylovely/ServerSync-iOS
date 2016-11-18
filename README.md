@@ -44,7 +44,7 @@ After calibrating, the functions of note are:
 **func toClientTime() -> NSDate** - If you have a time that is calibrated to the server's time (i.e. server's UTC time) and you want to translate it to the client's time:
 
 
-```
+```swift
 
 //Server states that something in your app should happen at this time: "2016-11-18 01:18:00" (UTC)
 dateFormat = NSDateFormatter()
@@ -73,7 +73,7 @@ NSDate.reset()
 
 **Concepts**
 
-Let's assume that from the moment the client sends it's request, the response time is made up of 3 components:
+Let's assume that from the moment the client sends it's request, the total response time is made up of 3 components:
 
 * L<sub>req</sub> - The transmission time before your server can start processing the request.
 * Operation Duration - How long the server took to process the request
