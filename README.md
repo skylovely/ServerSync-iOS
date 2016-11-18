@@ -28,7 +28,7 @@ Copy `ServerSync.swift` into your project.
 Usage
 -----
 
-Client will refer to the iPhone in the below contexts.
+"Client" will refer to the iPhone in the below contexts.
 
 ### General Usage
 
