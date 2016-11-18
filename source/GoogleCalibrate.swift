@@ -22,7 +22,10 @@ extension NSDate {
         if countryCode == nil {
             countryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String
         }
-        guard countryCode != nil else { return }
+        
+        if countryCode == nil {
+            countryCode = ""
+        }
         
         countryCode = countryCode.uppercaseString
         
@@ -219,7 +222,7 @@ extension NSDate {
             (data, response, error) in
             guard error == nil else { return }
             
-            //UTC server-client synchronisation
+            //UTC server-client synchronization
             let dateString: String = (response as! NSHTTPURLResponse).allHeaderFields["Date"] as! String
 
             let df = NSDateFormatter()
