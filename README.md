@@ -8,7 +8,7 @@ This allows you to coordinate events between your server and your app.
 
 You can use websockets, but that tends to be overkill and adds extra complexity client-and-server-side. Ideally, the app will periodically calibrate with the server. This library uses an exponential moving average to increase accuracy and reduce the effects of variations in latency.
 
-Other solutions are [Kronos](github.com/lyft/Kronos) and [TrueTime.swift](github.com/instacart/TrueTime.swift). They both work the same way but they miss the main point. They don't synchronize to _your_ server. They synchronize to the _true_ global UTC time, which means you have to also synchronize your server. They don't provide a complementary solution for your server. This is an **extra hassle** which is unnecessary (and probably overkill) for 99% of all apps.
+Other solutions are [Kronos](https://github.com/lyft/Kronos) and [TrueTime.swift](https://github.com/instacart/TrueTime.swift). They both work the same way but they miss the main point. They don't synchronize to _your_ server. They synchronize to the _true_ global UTC time, which means you have to also synchronize your server. They don't provide a complementary solution for your server. This is an **extra hassle** which is unnecessary (and probably overkill) for 99% of all apps.
 
 The library is written in Swift 2. It will be converted to Swift 3 when my project makes the transition in a few months.
 
