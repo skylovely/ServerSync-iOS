@@ -168,6 +168,7 @@ extension NSDate {
             "QA":"google.com.qa",
             "RO":"google.ro",
             "RS":"google.rs",
+            "RU":"google.ru",
             "RW":"google.rw",
             "SA":"google.com.sa",
             "SB":"google.com.sb",
