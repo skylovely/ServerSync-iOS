@@ -196,6 +196,8 @@ extension NSDate {
             "TO":"google.to",
             "TR":"google.com.tr",
             "TT":"google.tt",
+            "TW":"google.com.tw",
+            "TZ":"google.co.tz",
             "UA":"google.com.ua",
             "UG":"google.co.ug",
             "UY":"google.com.uy",
